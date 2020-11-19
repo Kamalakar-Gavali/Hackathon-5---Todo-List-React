@@ -1,12 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import "./../styles/App.css";
-
-function App() 
+import EditandSaveTask from './EditandSaveTask'
+function App(props) 
 {
+  const [newElement,setNewElement]=useState(0);
+  const [text,setText]=useState("");
+  const [editedText,setEditedText]=useState("");
+  const [taskList,setTaskList]=useState([]);
+  const [editandSave,setEditandSave]=useState([{}]);
+  var taskText="";
+  
+	
+   const inputText=((event)=>{
+	 console.log(event.target.value) ;
+	 
+	 setText(event.target.value);
+	 //event.target.id!=undefined?setEditedText(event.target.value):setText(event.target.value);
+	})
+	const inputText1=((event)=>{
+
+		console.log(event.target.value) ;
+		
+		setEditedText(event.target.value);	
+	   })
+	
+	const addToList=(event)=>{
+
+		 setTaskList([...taskList,text])
+		 setEditandSave([...editandSave,{show:false}])
+	}
+	const deleteFromList=((e)=>{
+		console.log(e.target.parentElement.id);
+		console.log([...taskList].splice(e.target.parentElement.id,1))
+		let arr=taskList;
+		arr.splice(e.target.parentElement.id,1);
+		setTaskList([...taskList]);
+	})
+	const showEditInputboxandSave=((e)=>{
+		let arr=editandSave;
+		// && e.target.value!='' && e.target.parentElement.id!=undefined
+		if(arr[e.target.parentElement.id].show)
+		{
+			let arr=taskList;
+			arr[e.target.parentElement.id]=editedText;
+			setTaskList([...taskList]);
+		}
+		arr[e.target.parentElement.id].show=!arr[e.target.parentElement.id].show;
+		setEditandSave([...editandSave]);
+	})
+  
 	return (
 	<div id="main">
-	//Do not alter main div
-	//Please do not alter the functional component as tests depend on the type of component.
+	
+	<textarea id="task" onChange={inputText} value={text}></textarea>
+
+    <button type="button" id="btn" onClick={addToList}>Add 	Task</button>
+	<ul>
+		{
+			taskList.map((value,index)=><li className="list" key={index} id={index}>
+				{value} 
+			<button className="edit" onClick={showEditInputboxandSave}>Edit</button>
+			{editandSave[index].show?<EditandSaveTask index={index} inputText1={inputText1} showEditInputboxandSave={showEditInputboxandSave} editedText={editedText}/>:null}
+			<button className="delete" onClick={deleteFromList}>Delete</button></li>)
+		}
+	
+	</ul>
 	</div>
 	);
 }
