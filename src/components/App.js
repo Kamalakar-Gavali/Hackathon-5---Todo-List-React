@@ -26,8 +26,13 @@ function App(props)
 	
 	const addToList=(event)=>{
 
+		 if(text!='')
+		 {
 		 setTaskList([...taskList,text])
 		 setEditandSave([...editandSave,{show:false}])
+		 }
+		 setText('');
+
 	}
 	const deleteFromList=((e)=>{
 		console.log(e.target.parentElement.id);
@@ -44,6 +49,7 @@ function App(props)
 			let arr=taskList;
 			arr[e.target.parentElement.id]=editedText;
 			setTaskList([...taskList]);
+			
 		}
 		arr[e.target.parentElement.id].show=!arr[e.target.parentElement.id].show;
 		setEditandSave([...editandSave]);
