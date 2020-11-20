@@ -40,19 +40,37 @@ function App(props)
 		let arr=taskList;
 		arr.splice(e.target.parentElement.id,1);
 		setTaskList([...taskList]);
+		let editAndSaveArr=editandSave;
+		editAndSaveArr[e.target.parentElement.id].show=false;
+		setEditandSave([...editandSave]);
 	})
 	const showEditInputboxandSave=((e)=>{
+		let editAndSaveArr=editandSave;
+		let taskListArr=taskList;
+		editAndSaveArr[e.target.parentElement.id].show=!editAndSaveArr[e.target.parentElement.id].show;
+		setEditandSave([...editandSave]);
+		setEditedText(taskListArr[e.target.parentElement.id]);
+		    
+			
+		
+		
+	})
+	const saveEditedText=((e)=>{
+
 		let arr=editandSave;
 		// && e.target.value!='' && e.target.parentElement.id!=undefined
-		if(arr[e.target.parentElement.id].show)
+		if(arr[e.target.parentElement.id].show && editedText!="")
 		{
 			let arr=taskList;
 			arr[e.target.parentElement.id]=editedText;
 			setTaskList([...taskList]);
-			
+			showEditInputboxandSave(e);
+			setEditedText('');
+			/*arr[e.target.parentElement.id].show=false;
+			setEditandSave([...editandSave]);*/
+
 		}
-		arr[e.target.parentElement.id].show=!arr[e.target.parentElement.id].show;
-		setEditandSave([...editandSave]);
+
 	})
   
 	return (
@@ -66,7 +84,7 @@ function App(props)
 			taskList.map((value,index)=><li className="list" key={index} id={index}>
 				{value} 
 			<button className="edit" onClick={showEditInputboxandSave}>Edit</button>
-			{editandSave[index].show?<EditandSaveTask index={index} inputText1={inputText1} showEditInputboxandSave={showEditInputboxandSave} editedText={editedText}/>:null}
+			{editandSave[index].show?<EditandSaveTask index={index} inputText1={inputText1} showEditInputboxandSave={showEditInputboxandSave} editedText={editedText} saveEditedText={saveEditedText}/>:null}
 			<button className="delete" onClick={deleteFromList}>Delete</button></li>)
 		}
 	

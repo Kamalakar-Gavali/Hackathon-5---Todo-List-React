@@ -9,7 +9,7 @@ const EditandSaveTask=(props)=>{
        
     return(
     <>
-    <textarea className="editTask" onChange={props.inputText1} value={props.editedText} id=" "></textarea><button className="saveTask" onClick={props.showEditInputboxandSave}>Save Task</button>
+    <textarea className="editTask" onChange={props.inputText1} value={props.editedText} id=" "></textarea><button className="saveTask" onClick={props.saveEditedText}>Save Task</button>
     </>
     )
     
