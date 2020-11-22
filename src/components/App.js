@@ -22,6 +22,7 @@ function App(props)
 		console.log(event.target.value) ;
 		
 		setEditedText(event.target.value);	
+		//setTaskList[event.target.parentElement.id]=event.target.value;
 	   })
 	
 	const addToList=(event)=>{
@@ -66,10 +67,8 @@ function App(props)
 			setTaskList([...taskList]);
 			showEditInputboxandSave(e);
 			setEditedText('');
-			/*arr[e.target.parentElement.id].show=false;
-			setEditandSave([...editandSave]);*/
-
 		}
+		
 
 	})
   
@@ -84,7 +83,7 @@ function App(props)
 			taskList.map((value,index)=><li className="list" key={index} id={index}>
 				{value} 
 			<button className="edit" onClick={showEditInputboxandSave}>Edit</button>
-			{editandSave[index].show?<EditandSaveTask index={index} inputText1={inputText1} showEditInputboxandSave={showEditInputboxandSave} editedText={editedText} saveEditedText={saveEditedText}/>:null}
+			{editandSave[index].show?<EditandSaveTask index={index} inputText1={inputText1} showEditInputboxandSave={showEditInputboxandSave} editedText={editedText} saveEditedText={saveEditedText} editedText={editedText} editTextVal={taskList[index]}/>:null}
 			<button className="delete" onClick={deleteFromList}>Delete</button></li>)
 		}
 	
