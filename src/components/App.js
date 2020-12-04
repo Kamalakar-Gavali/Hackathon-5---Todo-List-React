@@ -5,13 +5,13 @@ function App(props)
 {
   const [newElement,setNewElement]=useState(0);
   const [text,setText]=useState("");
-  const [editedText,setEditedText]=useState("");
+  const [editedText,setEditedText]=useState([]);
   const [taskList,setTaskList]=useState([]);
   const [editandSave,setEditandSave]=useState([{}]);
   var taskText="";
   
 	
-   const inputText=((event)=>{
+     const inputText=((event)=>{
 	 console.log(event.target.value) ;
 	 
 	 setText(event.target.value);
@@ -20,8 +20,9 @@ function App(props)
 	const inputText1=((event)=>{
 
 		console.log(event.target.value) ;
-		
-		setEditedText(event.target.value);	
+		let editedTextArr=editedText;
+		editedTextArr[event.target.parentElement.id]=event.target.value;
+        setEditedText([...editedText]);	
 		//setTaskList[event.target.parentElement.id]=event.target.value;
 	   })
 	
@@ -31,6 +32,7 @@ function App(props)
 		 {
 		 setTaskList([...taskList,text])
 		 setEditandSave([...editandSave,{show:false}])
+		 setEditedText([...editedText,""]);
 		 }
 		 setText('');
 
@@ -50,7 +52,9 @@ function App(props)
 		let taskListArr=taskList;
 		editAndSaveArr[e.target.parentElement.id].show=!editAndSaveArr[e.target.parentElement.id].show;
 		setEditandSave([...editandSave]);
-		setEditedText(taskListArr[e.target.parentElement.id]);
+		let editedTextArr=editedText;
+		editedTextArr[e.target.parentElement.id]=taskListArr[e.target.parentElement.id];
+		setEditedText([...editedText]);
 		    
 			
 		
@@ -63,10 +67,10 @@ function App(props)
 		if(arr[e.target.parentElement.id].show && editedText!="")
 		{
 			let arr=taskList;
-			arr[e.target.parentElement.id]=editedText;
+			arr[e.target.parentElement.id]=editedText[e.target.parentElement.id];
 			setTaskList([...taskList]);
 			showEditInputboxandSave(e);
-			setEditedText('');
+			//setEditedText('');
 		}
 		
 
@@ -83,7 +87,7 @@ function App(props)
 			taskList.map((value,index)=><li className="list" key={index} id={index}>
 				{value} 
 			<button className="edit" onClick={showEditInputboxandSave}>Edit</button>
-			{editandSave[index].show?<EditandSaveTask index={index} inputText1={inputText1} showEditInputboxandSave={showEditInputboxandSave} editedText={editedText} saveEditedText={saveEditedText} editedText={editedText} editTextVal={taskList[index]}/>:null}
+			{editandSave[index].show?<EditandSaveTask index={index} inputText1={inputText1} showEditInputboxandSave={showEditInputboxandSave} editedText={editedText} saveEditedText={saveEditedText} editedText={editedText[index]} editTextVal={taskList[index]}/>:null}
 			<button className="delete" onClick={deleteFromList}>Delete</button></li>)
 		}
 	
